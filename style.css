@@ -197,6 +197,29 @@ ul {
     border-color: var(--clr-white);
 }
 
+.btn-catalog {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--grad-gold);
+    color: var(--clr-white);
+    font-family: var(--font-ar);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    box-shadow: 0 4px 16px rgba(197, 160, 89, 0.4);
+}
+
+.btn-catalog:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.55);
+}
+
 /* ─── NAVBAR ─────────────────────────────────────── */
 .navbar {
     position: fixed;
