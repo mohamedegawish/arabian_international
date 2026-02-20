@@ -350,14 +350,17 @@ function openModal(car) {
     const modalCat = document.getElementById('modalCategory');
     const modalTit = document.getElementById('modalTitle');
     const modalDes = document.getElementById('modalDesc');
+    const modalInfo = document.getElementById('modalInfo');
     if (!modal) return;
 
     const lang = window.currentLang || 'ar';
     const ld = window.langData;
-    const name = lang === 'ar' ? car.nameAr : car.nameEn;
-    const desc = lang === 'ar' ? car.descAr : car.descEn;
+    const isAr = lang === 'ar';
+    const name = isAr ? car.nameAr : car.nameEn;
+    const desc = isAr ? car.descAr : car.descEn;
     const catKey = window.getCategoryTranslateKey(car.category);
     const catName = (ld[lang] && ld[lang][catKey]) || (ld['ar'] && ld['ar'][catKey]) || car.category;
+    const sar = isAr ? 'ريال' : 'SAR';
 
     modalImg.src = car.image;
     modalImg.alt = name;
@@ -365,8 +368,52 @@ function openModal(car) {
     modalTit.textContent = name;
     modalDes.textContent = desc;
 
-    // Make modal match current site direction
-    modal.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    // ── Pricing labels ─────────────────────────────────
+    const labels = isAr
+        ? { trip: 'مشوار مع سائق', h4: '4 ساعات مع سائق', h8: '8 ساعات مع سائق', h12: '12 ساعة مع سائق', extra: 'ساعة إضافية', inquiry: 'إرسال استفسار', whatsappText: 'استفسار عن' }
+        : { trip: 'Trip Rate (with Driver)', h4: '4 Hours (with Driver)', h8: '8 Hours (with Driver)', h12: '12 Hours (with Driver)', extra: 'Extra Hour', inquiry: 'Send Inquiry', whatsappText: 'Inquiry about' };
 
+    // ── WhatsApp URL ────────────────────────────────────
+    const phone = '201007056015'; // international format (Egypt: 20 + remove leading 0)
+    const waMsg = encodeURIComponent(`${labels.whatsappText}: ${name}`);
+    const waUrl = `https://wa.me/${phone}?text=${waMsg}`;
+
+    // ── Inject updated info section ─────────────────────
+    const hasPricing = car.tripRate != null;
+
+    modalInfo.innerHTML = `
+        <div class="modal-category" id="modalCategory">${catName}</div>
+        <h3 class="modal-title" id="modalTitle">${name}</h3>
+        <p class="modal-desc" id="modalDesc">${desc}</p>
+        ${hasPricing ? `
+        <div class="modal-pricing">
+            <div class="pricing-row">
+                <span class="pricing-label"><i class="fas fa-route"></i> ${labels.trip}</span>
+                <span class="pricing-value">${car.tripRate.toLocaleString()} ${sar}</span>
+            </div>
+            <div class="pricing-row">
+                <span class="pricing-label"><i class="fas fa-clock"></i> ${labels.h4}</span>
+                <span class="pricing-value">${car.price4h.toLocaleString()} ${sar}</span>
+            </div>
+            <div class="pricing-row">
+                <span class="pricing-label"><i class="fas fa-clock"></i> ${labels.h8}</span>
+                <span class="pricing-value">${car.price8h.toLocaleString()} ${sar}</span>
+            </div>
+            <div class="pricing-row">
+                <span class="pricing-label"><i class="fas fa-clock"></i> ${labels.h12}</span>
+                <span class="pricing-value">${car.price12h.toLocaleString()} ${sar}</span>
+            </div>
+            <div class="pricing-row pricing-row--extra">
+                <span class="pricing-label"><i class="fas fa-plus-circle"></i> ${labels.extra}</span>
+                <span class="pricing-value">${car.extraHour.toLocaleString()} ${sar}</span>
+            </div>
+        </div>` : ''}
+        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="modal-whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> ${labels.inquiry}
+        </a>
+    `;
+
+    // Make modal match current site direction
+    modal.setAttribute('dir', isAr ? 'rtl' : 'ltr');
     modal.classList.add('active');
 }

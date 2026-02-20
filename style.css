@@ -1073,7 +1073,7 @@ html[dir="ltr"] .fleet-cat-badge {
 @media (min-width: 700px) {
     .modal-content {
         flex-direction: row;
-        height: 500px;
+        height: 560px;
         max-height: 90vh;
     }
 }
@@ -1120,11 +1120,14 @@ html[dir="rtl"] .modal-close {
 }
 
 .modal-info {
-    padding: 36px 32px;
+    padding: 28px 28px 24px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-border) transparent;
 }
 
 .modal-category {
@@ -1145,6 +1148,99 @@ html[dir="rtl"] .modal-close {
 .modal-desc {
     color: var(--clr-muted);
     line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* ─── MODAL PRICING TABLE ──────────────────────────── */
+.modal-pricing {
+    border: 1px solid var(--clr-border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--clr-border);
+    font-size: 0.9rem;
+    transition: background var(--t-fast);
+}
+
+.pricing-row:last-child {
+    border-bottom: none;
+}
+
+.pricing-row:nth-child(odd) {
+    background: var(--clr-off);
+}
+
+.pricing-row:nth-child(even) {
+    background: var(--clr-white);
+}
+
+.pricing-row--extra {
+    background: rgba(197, 160, 89, 0.08) !important;
+}
+
+.pricing-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--clr-text);
+    font-weight: 500;
+}
+
+.pricing-label i {
+    color: var(--clr-navy);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.pricing-row--extra .pricing-label i {
+    color: var(--clr-gold);
+}
+
+.pricing-value {
+    font-weight: 700;
+    color: var(--clr-navy);
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.pricing-row--extra .pricing-value {
+    color: var(--clr-gold-d);
+}
+
+/* ─── WHATSAPP BUTTON ───────────────────────────────── */
+.modal-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 20px;
+    background: #25d366;
+    color: #fff;
+    font-family: var(--font-ar);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+}
+
+.modal-whatsapp-btn i {
+    font-size: 1.3rem;
+}
+
+.modal-whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5);
+    color: #fff;
 }
 
 /* ─── CLIENTS ────────────────────────────────────── */
